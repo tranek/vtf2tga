@@ -5,10 +5,8 @@
 
 using namespace Magick;
 
-int main(int argc, char* argv[])
-{
-	if (argc != 3)
-	{
+int main(int argc, char* argv[]) {
+	if (argc != 3) {
 		std::cout << "Incorrect arguments." << std::endl;
 		std::cout << "Arg 1 = /path/to/.vtf file." << std::endl;
 		std::cout << "Arg 2 = /output/directory." << std::endl;
@@ -17,16 +15,15 @@ int main(int argc, char* argv[])
 
 	VTFLib::CVTFFile vtf;
 
-    if (!vtf.Load(argv[1]))
-	{
+	if (!vtf.Load(argv[1])) {
 		std::cout << "Failed to load .vtf file." << std::endl;
-        exit(1);
-    }
+		exit(1);
+	}
 
 	std::cout << "Loading: " << argv[1] << std::endl;
 
 	vlUInt width = vtf.GetWidth();
-    vlUInt height = vtf.GetHeight();
+	vlUInt height = vtf.GetHeight();
 	vlUInt depth  = vtf.GetDepth();
 
 	std::cout << "Width: " << width << std::endl;
@@ -40,13 +37,11 @@ int main(int argc, char* argv[])
 
 	int img_dstformat = 0;
 
-	if (VTFLib::CVTFFile::GetImageFormatInfo(srcformat).uiAlphaBitsPerPixel > 0)
-	{
-        dstformat = IMAGE_FORMAT_RGBA8888;
+	if (VTFLib::CVTFFile::GetImageFormatInfo(srcformat).uiAlphaBitsPerPixel > 0) {
+		dstformat = IMAGE_FORMAT_RGBA8888;
 		img_dstformat = 1;
 	}
-	else
-	{
+	else {
 		dstformat = IMAGE_FORMAT_RGB888;
 		img_dstformat = 0;
 	}
@@ -61,10 +56,10 @@ int main(int argc, char* argv[])
 
 	const vlByte* frame = vtf.GetData(currentFrame, 0, 0, 0);
 
-    if (!frame) {
+	if (!frame) {
 		std::cout << "Failed to get the image data at frame 0." << std::endl;
-        exit(1);
-    }
+		exit(1);
+	}
 
 	Image image;
 	image.type(::Magick::TrueColorType);
@@ -74,7 +69,7 @@ int main(int argc, char* argv[])
 	VTFLib::CVTFFile tmpfile;
 	tmpfile.Create(vtf.GetWidth(), vtf.GetHeight());
 	vtf.ConvertToRGBA8888(vtf.GetData(1,1,1,0), tmpfile.GetData(1,1,1,0), vtf.GetWidth(), vtf.GetHeight(), vtf.GetFormat());
-    
+
 	image.read(tmpfile.GetWidth(), tmpfile.GetHeight(), "RGBA", Magick::CharPixel, tmpfile.GetData(1,1,1,0));
 
 
