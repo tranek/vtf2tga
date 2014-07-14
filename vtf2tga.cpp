@@ -24,7 +24,6 @@ int main(int argc, char* argv[]) {
 
 	vlUInt width = vtf.GetWidth();
 	vlUInt height = vtf.GetHeight();
-	vlUInt depth  = vtf.GetDepth();
 
 	std::cout << "Width: " << width << std::endl;
 	std::cout << "Height: " << height << std::endl;
@@ -53,7 +52,6 @@ int main(int argc, char* argv[]) {
 	}
 
 	int currentFrame = 0;
-
 	const vlByte* frame = vtf.GetData(currentFrame, 0, 0, 0);
 
 	if (!frame) {
@@ -72,12 +70,10 @@ int main(int argc, char* argv[]) {
 
 	image.read(tmpfile.GetWidth(), tmpfile.GetHeight(), "RGBA", Magick::CharPixel, tmpfile.GetData(1,1,1,0));
 
-
 	std::cout << "Writing: " << argv[2] << std::endl;
 
 	image.magick("TGA");
 	image.write(argv[2]);
-
 
 	exit(0);
 }
